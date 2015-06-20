@@ -1,0 +1,87 @@
+body {
+	font-family: 'Chewy', cursive;
+}
+
+hr {
+	border-top: 1px solid #9ca897;
+}
+
+.container {
+	padding-top: 40px;
+}
+
+.header {
+	padding-bottom: 80px;
+}
+
+.header h1 {
+	font-size: 80px;
+	text-align: center;
+}
+
+.footer {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding: 40px 0px 40px 0px;
+	text-align: center;
+}
+
+.grid {
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+	table-layout: fixed;
+	border-collapse: separate;
+	border-spacing: 3px;
+}
+
+@media(min-width: 768px) {
+	.grid {
+		border-spacing: 5px;
+	}
+}
+
+.grid-row {
+	display: table-row;
+}
+
+.grid-cell {
+	display: table-cell;
+	background-color: #d9edf7;
+	border-right: 2px solid #98a6ad;
+	border-bottom: 2px solid #98a6ad;
+	border-radius: 4px;
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+@media(min-width: 480px) {
+	.grid-cell {
+		height: 46px;
+		width: 46px;
+		font-size: large;
+	}
+
+@media(min-width: 768px) {
+	.grid-cell {
+		height: 75px;
+		width: 75px;
+		font-size: xx-large;
+	}
+}
+
+.revealed {
+	border-top: 2px solid #98a6ad;
+	border-left: 2px solid #98a6ad;
+	border-bottom: none;
+	border-right: none;
+}
+
+.revealed.bad {
+	background-color: #f2dede;
+}
+
+.revealed.neutral, .revealed.good {
+	background-color: #dff0d8;
+}

@@ -62,6 +62,7 @@ hr {
 		width: 46px;
 		font-size: large;
 	}
+}
 
 @media(min-width: 768px) {
 	.grid-cell {
@@ -79,6 +80,7 @@ hr {
 }
 
 .revealed.bad {
+	color: red;
 	background-color: #f2dede;
 }
 

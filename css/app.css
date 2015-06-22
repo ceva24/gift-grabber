@@ -84,6 +84,6 @@ hr {
 	background-color: #f2dede;
 }
 
-.revealed.neutral, .revealed.good {
+.revealed.neutral, .revealed.good { /* TODO colors - darker color for good? unique color for gift? */
 	background-color: #dff0d8;
 }

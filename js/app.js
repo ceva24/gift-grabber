@@ -1,4 +1,5 @@
-// TODO templates?
+// TODO separate files
+// TODO build procedure
 
 IconEnum = {
 	ARROW: 0,
@@ -18,88 +19,100 @@ var Tile = Backbone.Model.extend({
 	}
 });
 
-var Grid = Backbone.Collection.extend({
-
-	model: Tile,
+var TileCollection = Backbone.Collection.extend({
 	
+	model: Tile
+});
+
+var Grid = Backbone.Model.extend({
+
+	grid: new TileCollection(),
+
 	initialize: function() {
 
-		for (var y = 0; y <= 6; y++){
-			for (var x = 0; x <= 8; x++) {
-				this.add(new Tile({ x: x, y: y }));
-			}
-		}
-	
-		this.populate();
+		for (var y = 7; y >= 1; y--)
+			for (var x = 1; x <= 9; x++)
+				this.grid.add(new Tile({ x: x, y: y }));
+			
+		this.populateIcons();
 	},
 	
-	populate: function() {
+	populateIcons: function() {
 
-		// to be set when creating a new Grid();
-		var fires = 5;
-		var arrows = 5;
-		var numbers = 5;
-	
-		var tiles = this.models.slice();
+		var that = this;
 		
-		var giftTile;
+		//this.grid.each(function(tile) { tile.set("icon", null) }); // Reset previous icons TODO use in future ShuffleTile
+
+		var tiles = this.grid.models.slice();
+
+		var giftTile = addIconToRandomTile(IconEnum.GIFT, tiles);
+
+		for (var i = 0; i < this.get("fires"); i++)
+			addIconToRandomTile(IconEnum.FIRE, tiles);
+
+		for (var i = 0; i < this.get("numbers"); i++)
+			addNumberIconToRandomSuitableTile(tiles); 
+			
+		for (var i = 0; i < this.get("arrows"); i++)
+			addIconToRandomTile(IconEnum.ARROW, tiles);
 		
-		// add gift
-		var location = Math.floor(Math.random() * (tiles.length - 1));
-		
-		tiles[location].set("icon", new Icon({ type: IconEnum.GIFT }));
-		giftTile = tiles[location];
-		
-		tiles.splice(location, 1);
-		
-		// add fires
-		for (var i = 0; i < fires; i++) { // TODO all these should be separated out into submethods, as arrows could be quite big - where should the submethods be?
-		
-				var location = Math.floor(Math.random() * (tiles.length - 1)); // TODO separate out this logic
-				
-				tiles[location].set("icon", new Icon({ type: IconEnum.FIRE }));
-				tiles.splice(location, 1);
+		function addNumberIconToRandomSuitableTile(tiles) { 
+			
+			// Limit the distance from the gift that number tiles can be.
+			var suitableTiles = _.filter(tiles, function(tile) { return (that.getDistanceFromGiftTile(tile, giftTile) <= Math.round(Math.sqrt(that.grid.models.length))) });
+			
+			var tile = addIconToRandomTile(IconEnum.NUMBER, suitableTiles);
+			
+			tiles.splice(tiles.indexOf(tile), 1);
 		}
-		
-		// add arrows
-		for (var i = 0; i < arrows; i++) {
+
+		function addIconToRandomTile(icon, tiles) {
+
+			var randomLocation = Math.floor(Math.random() * (tiles.length - 1));
+			var tile = tiles[randomLocation];
 			
-			var location = Math.floor(Math.random() * (tiles.length - 1)); // TODO where should the method be that calculates what direction arrow it is? same for number
+			console.log("adding " + icon + " to tile " + tile.get("x") + "," + tile.get("y"));
+
+			var value;
+			switch(icon) {
 			
-			tiles[location].set("icon", new Icon({ type: IconEnum.ARROW, value: this.getDirectionToGift(tiles[location], giftTile) }));
-			tiles.splice(location, 1);
-		}
-		
-		// add numbers
-		for (var i = 0; i < numbers; i++) { // TODO numbers should be less than 10 (or calculate a reasonable number for variable-size grid) otherwise too easy
+				case IconEnum.ARROW:  value = that.getDirectionToGift(tile, giftTile); break;
+				case IconEnum.NUMBER: value = that.getDistanceFromGiftTile(tile, giftTile); break;
+				default:              value = null; break;
+			}
 			
-			var location = Math.floor(Math.random() * (tiles.length - 1));
+			tile.set("icon", new Icon({ type: icon, value: value }));
+			tiles.splice(randomLocation, 1);
 			
-			tiles[location].set("icon", new Icon({ type: IconEnum.NUMBER, value: this.getDistanceFromGiftTile(tiles[location], giftTile) }));
-			tiles.splice(location, 1);
+			return tile;
 		}
 	},
 	
 	getDirectionToGift: function(tile, giftTile) {
-	
-		// TODO cleanup or comment
+
 		var useLeftRight;
+		
+		// Determine whether this arrow will be left/right or up/down
 		if (tile.get("x") == giftTile.get("x")) {
+			
 			useLeftRight = false;
 		}
 		else if (tile.get("y") == giftTile.get("y")) {
+			
 			useLeftRight = true;
 		}
 		else {
+			
 			useLeftRight = (Math.random() > 0.5);
 		}
 
 		if (useLeftRight) {
-		
+
 			return (tile.get("x") > giftTile.get("x") ? "left" : "right");
 		}
 		else {
-			return (tile.get("y") > giftTile.get("y") ? "up" : "down");
+
+			return (tile.get("y") > giftTile.get("y") ? "down" : "up");
 		}
 	},
 	
@@ -112,35 +125,62 @@ var Grid = Backbone.Collection.extend({
 var TileView = Backbone.Marionette.ItemView.extend({
 
 	className: "grid-cell",
-	
+
 	events: {
 		"click": "reveal"
 	},
+	
+	initialize: function() {
+		
+			this.listenTo(this.model, "change", this.render);
+	},
 
 	render: function() {
+		
+		if (this.model.get("revealed")) {
+			
+			this.$el.addClass("revealed");
+			
+			this.addContent();
+		}
+		else {
+			
+			this.$el.removeClass("revealed"); 
+			
+			// Remove content
+			this.$el.removeClass("bad neutral good");
+			this.$el.html("");
+		}
 	
 		return this;
 	},
 	
 	reveal: function() { 
-	
+
 		if (!this.model.get("revealed")) {
 		
 			this.model.set("revealed", true);
 
-			this.$el.addClass("revealed");
-
-			this.setIcon();
-			this.setType();
+			this.performAction();
 		}
-	}
+	},
+	
+	hide: function() {
+
+		if (this.model.get("revealed")) {
+			
+			this.model.set("revealed", false);
+		}
+	},
+	
+	addContent: function() {},
+	
+	performAction: function() {}
 });
 
 var EmptyTileView = TileView.extend({
 
-	setIcon: function() {},
-	
-	setType: function() {
+	addContent: function() {
 	
 		this.$el.addClass("neutral");
 	}
@@ -148,65 +188,56 @@ var EmptyTileView = TileView.extend({
 
 var GiftTileView = TileView.extend({ // TODO new icons or pngs
 
-	setIcon: function() {
-	
-		this.$el.html('<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>');
-	},
-	
-	setType: function() {
+	addContent: function() {
 	
 		this.$el.addClass("good");
+		this.$el.html('<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>');
 	}
 });
 
 var FireTileView = TileView.extend({
 
-	setIcon: function() {
+	addContent: function() {
 	
+		this.$el.addClass("bad");
 		this.$el.html('<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>');
 	},
 	
-	setType: function() {
+	performAction: function() {
 	
-		this.$el.addClass("bad");
+		var that = this;
+
+		this.collection.each(function(tileView) {
+
+			if (tileView != that)
+				tileView.hide();
+		});
 	}
 });
 
 var ArrowTileView = TileView.extend({
 
-	setIcon: function() {
-	
-		this.$el.html('<span class="glyphicon glyphicon-arrow-' + this.model.get("icon").get("value") + '" aria-hidden="true"></span>');
-	},
-	
-	setType: function() {
+	addContent: function() {
 	
 		this.$el.addClass("good");
+		this.$el.html('<span class="glyphicon glyphicon-arrow-' + this.model.get("icon").get("value") + '" aria-hidden="true"></span>');
 	}
 });
 
 var NumberTileView = TileView.extend({
 
-	setIcon: function() {
-	
-		this.$el.html(this.model.get("icon").get("value"));
-	},
-	
-	setType: function() {
+	addContent: function() {
 	
 		this.$el.addClass("good");
+		this.$el.html(this.model.get("icon").get("value"));
 	}
 });
 
 var GridView = Backbone.Marionette.CollectionView.extend({
 
-	collection: new Grid(),
-	
 	el: "#game-grid",
 
 	childView: TileView,
-	
-	// TODO event that unreveals when fire
 
 	onRender: function() {
 
@@ -221,23 +252,17 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
 		var icon = child.get("icon") ? child.get("icon").get("type") : null;
 
-		// TODO switch
-		if (icon == IconEnum.FIRE) {
-			return new FireTileView(_.extend({ model: child }, childViewOptions)); // TODO options top
-		}
-		else if (icon == IconEnum.ARROW) {
-			return new ArrowTileView(_.extend({ model: child }, childViewOptions));
-		}
-		else if (icon == IconEnum.NUMBER) {
-			return new NumberTileView(_.extend({ model: child }, childViewOptions));
-		}
-		else if (icon == IconEnum.GIFT) {
-			return new GiftTileView(_.extend({ model: child }, childViewOptions));
-		}	
-		else {
-			return new EmptyTileView(_.extend({ model: child }, childViewOptions));
+		var options = _.extend({ model: child, collection: this.children }, childViewOptions);
+		
+		switch (icon) {
+			
+			case IconEnum.FIRE:   return new FireTileView(options);
+			case IconEnum.ARROW:  return new ArrowTileView(options);
+			case IconEnum.NUMBER: return new NumberTileView(options);
+			case IconEnum.GIFT:   return new GiftTileView(options);
+			default:              return new EmptyTileView(options);
 		}
 	}
 });
 
-new GridView().render();
+new GridView({ collection: new Grid({ fires: 4, arrows: 10, numbers: 10 }).grid }).render();

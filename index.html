@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chewy">
 	
 	<link href="css/app.css" rel="stylesheet">
 
@@ -19,24 +20,32 @@
   </head>
   <body>
 
-	<div class="container" style="padding-left: 0; padding-right: 0">
+	<div class="container">
 
 		<div class="header">
 			<h1></h1>
 		</div>
 
-		<div class="col-xs-12" style="padding-left: 0; padding-right: 0">
+		<div id="game" class="col-xs-12">
+			<div id="info-screen" class="info-screen"></div>
 			<div id="game-grid" class="grid"></div>
 		</div>
 
-		<div class="col-xs-12">
-			<div class="footer">
-				<hr>
-				<a href="http://www.ceva24.co.uk">Chris Evans</a>, 2015.
+		<!--footer id="footer"> 
+			<div class="container footer-container">
+				<div class="col-xs-12">
+					<hr>
+					<a href="http://www.ceva24.co.uk">Chris Evans</a>, 2015. Created with Bootstrap and Backbone.js.
+				</div>
 			</div>
-		</div>
+		</footer-->
 
 	</div>
+	
+	<!-- Backbone templates -->
+	<script type="text/template" id="template-info">
+		<span id="info-text" class="animated pulse infinite">Start <span class="start-icon glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+	</script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

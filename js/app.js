@@ -34,10 +34,10 @@ var Grid = Backbone.Model.extend({
 			for (var x = 1; x <= 9; x++)
 				this.grid.add(new Tile({ x: x, y: y }));
 			
-		this.populateIcons();
+		this.populateGrid();
 	},
 	
-	populateIcons: function() {
+	populateGrid: function() {
 
 		var that = this;
 		
@@ -71,14 +71,14 @@ var Grid = Backbone.Model.extend({
 			var randomLocation = Math.floor(Math.random() * (tiles.length - 1));
 			var tile = tiles[randomLocation];
 			
-			console.log("adding " + icon + " to tile " + tile.get("x") + "," + tile.get("y"));
+			//console.log("adding " + icon + " to tile " + tile.get("x") + "," + tile.get("y"));
 
 			var value;
 			switch(icon) {
 			
 				case IconEnum.ARROW:  value = that.getDirectionToGift(tile, giftTile); break;
 				case IconEnum.NUMBER: value = that.getDistanceFromGiftTile(tile, giftTile); break;
-				default:              value = null; break;
+				default:              value = null;
 			}
 			
 			tile.set("icon", new Icon({ type: icon, value: value }));
@@ -92,7 +92,7 @@ var Grid = Backbone.Model.extend({
 
 		var useLeftRight;
 		
-		// Determine whether this arrow will be left/right or up/down
+		// Determine whether this arrow will be left/right or up/down (sometimes there's no choice)
 		if (tile.get("x") == giftTile.get("x")) {
 			
 			useLeftRight = false;
@@ -127,7 +127,8 @@ var TileView = Backbone.Marionette.ItemView.extend({
 	className: "grid-cell",
 
 	events: {
-		"click": "reveal"
+		"click": "reveal",
+		"tap": "reveal"
 	},
 	
 	initialize: function() {
@@ -209,6 +210,7 @@ var FireTileView = TileView.extend({
 
 		this.collection.each(function(tileView) {
 
+			// Hide all tiles except this one
 			if (tileView != that)
 				tileView.hide();
 		});
@@ -241,7 +243,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
 	onRender: function() {
 
-		// Wrap cells in a .grid-row every 9 cells.
+		// Wrap cells in a .grid-row every 9 cells
 		var cells = $("#game-grid > .grid-cell");
 
 		for(var i = 0; i < cells.length; i += 9)
@@ -265,4 +267,66 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	}
 });
 
-new GridView({ collection: new Grid({ fires: 4, arrows: 10, numbers: 10 }).grid }).render();
+var InfoView = Backbone.View.extend({
+
+	el: "#info-screen",
+	
+	template: _.template($("#template-info").html()),
+	
+	events: {
+		"click #info-text": "nextLevel"
+	},
+	
+	render: function() {
+		
+		this.$el.html(this.template(this.model.attributes));
+		return this;
+	},
+	
+	nextLevel: function() {
+	
+		var that = this;
+		
+		this.$el.addClass("animated fadeOutLeft");
+
+		$(setTimeout(function() {
+
+			that.$el.hide();
+			that.trigger("next-level");
+		
+		}, 400));
+	}
+});
+
+var App = Backbone.Model.extend({
+
+	initialize: function() {
+	
+		this.level = 1;
+		this.fires = 4;
+		this.arrows = 5;
+		this.numbers = 5;
+	}
+});
+
+var AppView = Backbone.View.extend({
+
+	model: new App(),
+
+	el: "#game",
+	
+	initialize: function() {
+	
+		var info = new InfoView({ model: this.model });
+		this.listenTo(info, "next-level", this.nextLevel);
+		info.render();
+	},
+	
+	nextLevel: function() {
+
+		new GridView({ collection: new Grid({ fires: this.model.fires, arrows: this.model.arrows, numbers: this.model.numbers }).grid }).render();
+		$("#game-grid").addClass("animated fadeInRight");
+	}
+});
+
+new AppView({}).render();

@@ -19,10 +19,35 @@ hr {
 	text-align: center;
 }
 
-.footer {
+/*html {
+  position: relative;
+  min-height: 90%;
+}
+body {
+  margin-bottom: 60px;
+}
+
+#footer {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	padding: 40px 0px 40px 0px;
 	text-align: center;
+	position: absolute;
+	bottom: 0;
+	height: 60px;
+}
+
+.footer-container {
+	padding-left: 0;
+}*/
+
+.info-screen {
+	text-align: center; 
+	padding-top: 20%;
+	font-size: xx-large;
+}
+
+#info-text {
+	cursor: pointer;
 }
 
 .grid {
@@ -86,4 +111,8 @@ hr {
 
 .revealed.neutral, .revealed.good { /* TODO colors - darker color for good? unique color for gift? */
 	background-color: #dff0d8;
+}
+
+.glyphicon {
+	vertical-align: -10%;
 }

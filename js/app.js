@@ -240,6 +240,10 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	el: "#game-grid",
 
 	childView: TileView,
+	
+	events: {
+		"click .grid-cell": "tileClicked"
+	},
 
 	onRender: function() {
 
@@ -264,6 +268,17 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 			case IconEnum.GIFT:   return new GiftTileView(options);
 			default:              return new EmptyTileView(options);
 		}
+	},
+	
+	show: function() {
+		
+		this.$el.addClass("animated fadeInRight");
+		this.render();
+	},
+	
+	tileClicked: function() {
+		
+		this.trigger("tile-clicked"); // TODO need to propagate a gift-tile-clicked event; if it ends up chaining all the way up from GiftTile then this event should do the same for consistency
 	}
 });
 
@@ -287,7 +302,7 @@ var InfoView = Backbone.View.extend({
 	
 		var that = this;
 		
-		this.$el.addClass("animated fadeOutLeft");
+		this.$el.addClass("animated fadeOutLeft"); // TODO need a reset that removes these again and is called on initialize...(?) same for stats pane probably
 
 		$(setTimeout(function() {
 
@@ -298,14 +313,37 @@ var InfoView = Backbone.View.extend({
 	}
 });
 
+var StatsView = Backbone.View.extend({
+
+	el: "#stats",
+	
+	template: _.template($("#template-stats").html()),
+	
+	render: function() {
+
+		this.$el.html(this.template(this.model.attributes));
+		return this;
+	},
+	
+	show: function() {
+		
+		this.$el.addClass("animated fadeIn");
+		this.render();
+	}
+});
+
 var App = Backbone.Model.extend({
 
 	initialize: function() {
 	
-		this.level = 1;
-		this.fires = 4;
-		this.arrows = 5;
-		this.numbers = 5;
+		this.set({
+			level: 1,
+			moves: 25,
+			movesRemaining: 25,
+			fires: 4,
+			arrows: 5,
+			numbers: 5
+		});
 	}
 });
 
@@ -316,17 +354,41 @@ var AppView = Backbone.View.extend({
 	el: "#game",
 	
 	initialize: function() {
-	
-		var info = new InfoView({ model: this.model });
-		this.listenTo(info, "next-level", this.nextLevel);
-		info.render();
+
+		this.info = new InfoView({ model: this.model });
+		this.listenTo(this.info, "next-level", this.nextLevel);
+		
+		this.stats = new StatsView({ model: this.model });
+		
+		this.info.render();
 	},
 	
 	nextLevel: function() {
+	
+		var that = this;
+		
+		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
+		this.listenTo(this.grid, "tile-clicked", this.tileClicked);
+		
+		
+		this.grid.show();
+		
+		$(setTimeout(function() {
 
-		new GridView({ collection: new Grid({ fires: this.model.fires, arrows: this.model.arrows, numbers: this.model.numbers }).grid }).render();
-		$("#game-grid").addClass("animated fadeInRight");
+			that.stats.show();
+		
+		}, 1000));
+	},
+	
+	tileClicked: function() {
+	
+		// TODO if 0, unbind click events (if possible + necessary), call this.gameOver();
+	
+		this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
+		this.stats.render();
 	}
 });
 
-new AppView({}).render();
+// TODO need a restart button
+
+new AppView();

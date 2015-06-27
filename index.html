@@ -25,11 +25,26 @@
 		<div class="header">
 			<h1></h1>
 		</div>
-
-		<div id="game" class="col-xs-12">
-			<div id="info-screen" class="info-screen"></div>
-			<div id="game-grid" class="grid"></div>
+		
+		<div id="game">
+		
+			<div id="info-screen" class="info-screen col-xs-12"></div>
+			
+			<div id="stats" class="stats-panel"></div>
+			
+			<div class="col-xs-12">
+				<div id="game-grid" class="grid"></div>
+			</div>
+			
 		</div>
+		
+		<!--div id="info-screen" class="info-screen col-xs-12"></div>
+
+
+		<div id="stats" class="stats-panel"></div>
+		<div id="game" class="col-xs-12">
+			<div id="game-grid" class="grid"></div>
+		</div-->
 
 		<!--footer id="footer"> 
 			<div class="container footer-container">
@@ -46,6 +61,27 @@
 	<script type="text/template" id="template-info">
 		<span id="info-text" class="animated pulse infinite">Start <span class="start-icon glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
 	</script>
+
+	<script type="text/template" id="template-stats"> <!-- TODO needs completely redoing with col-lgs -->
+	<div class="col-xs-12" style="text-align: center">
+		<span>Level <span class="badge"><%- level %></span></span>
+		<span style="margin-left: 20px; margin-right: 20px;"></span>
+		<span>Moves <span style="color: green"><%- movesRemaining %></span>/<%- moves %></span>
+		<span style="margin-left: 20px; margin-right: 20px;"></span>
+		<span class="stats-tile revealed good glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <%- arrows %>
+		<span style="margin-left: 20px; margin-right: 20px;"></span>
+		<span class="stats-tile revealed good" aria-hidden="true" style="top: -1px;">3</span> <%- numbers %>
+		<span style="margin-left: 20px; margin-right: 20px;"></span>
+		<span class="stats-tile revealed bad glyphicon glyphicon-fire" aria-hidden="true"></span> <%- fires %>
+	</div>
+	</script>
+	
+	<!--script type="text/template" id="template-stats">
+		<div class="col-sm-offset-3 col-sm-1"><span class="stats-tile revealed good glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <%- arrows %></div>
+		<div class="col-sm-1"><span class="stats-tile revealed good" aria-hidden="true" style="padding-left: 8px; padding-right: 9px;">3</span> <%- numbers %></div>
+		<div class="col-sm-1"><span class="stats-tile revealed bad glyphicon glyphicon-fire" aria-hidden="true"></span> <%- fires %></div>
+		<div class="col-sm-offset-3 col-sm-1">Level <%- level %></div>
+	</script-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

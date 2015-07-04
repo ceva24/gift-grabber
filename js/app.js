@@ -389,8 +389,6 @@ var AppView = Backbone.View.extend({
 	
 	gameOver: function() {
 
-		var self = this;
-		
 		this.stopListening();
 		this.grid.children.each(function(child) { child.undelegateEvents() });
 	}

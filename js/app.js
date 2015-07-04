@@ -39,7 +39,7 @@ var Grid = Backbone.Model.extend({
 	
 	populateGrid: function() {
 
-		var that = this;
+		var self = this;
 		
 		//this.grid.each(function(tile) { tile.set("icon", null) }); // Reset previous icons TODO use in future ShuffleTile
 
@@ -59,7 +59,7 @@ var Grid = Backbone.Model.extend({
 		function addNumberIconToRandomSuitableTile(tiles) { 
 			
 			// Limit the distance from the gift that number tiles can be.
-			var suitableTiles = _.filter(tiles, function(tile) { return (that.getDistanceFromGiftTile(tile, giftTile) <= Math.round(Math.sqrt(that.grid.models.length))) });
+			var suitableTiles = _.filter(tiles, function(tile) { return (self.getDistanceFromGiftTile(tile, giftTile) <= Math.round(Math.sqrt(self.grid.models.length))) });
 			
 			var tile = addIconToRandomTile(IconEnum.NUMBER, suitableTiles);
 			
@@ -76,8 +76,8 @@ var Grid = Backbone.Model.extend({
 			var value;
 			switch(icon) {
 			
-				case IconEnum.ARROW:  value = that.getDirectionToGift(tile, giftTile); break;
-				case IconEnum.NUMBER: value = that.getDistanceFromGiftTile(tile, giftTile); break;
+				case IconEnum.ARROW:  value = self.getDirectionToGift(tile, giftTile); break;
+				case IconEnum.NUMBER: value = self.getDistanceFromGiftTile(tile, giftTile); break;
 				default:              value = null;
 			}
 			
@@ -130,18 +130,12 @@ var TileView = Backbone.Marionette.ItemView.extend({
 		"click": "reveal",
 		"tap": "reveal"
 	},
-	
-	initialize: function() {
-		
-			this.listenTo(this.model, "change", this.render);
-	},
 
 	render: function() {
 		
 		if (this.model.get("revealed")) {
 			
 			this.$el.addClass("revealed");
-			
 			this.addContent();
 		}
 		else {
@@ -156,13 +150,14 @@ var TileView = Backbone.Marionette.ItemView.extend({
 		return this;
 	},
 	
-	reveal: function() { 
-
+	reveal: function() {
+	
 		if (!this.model.get("revealed")) {
 		
 			this.model.set("revealed", true);
-
 			this.performAction();
+			this.trigger("tile:revealed");
+			this.render();
 		}
 	},
 	
@@ -206,13 +201,15 @@ var FireTileView = TileView.extend({
 	
 	performAction: function() {
 	
-		var that = this;
+		var self = this;
 
 		this.collection.each(function(tileView) {
 
 			// Hide all tiles except this one
-			if (tileView != that)
+			if (tileView != self) {
 				tileView.hide();
+				tileView.render();
+			}
 		});
 	}
 });
@@ -276,9 +273,9 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 		this.render();
 	},
 	
-	tileClicked: function() {
+	onChildviewTileRevealed: function() {
 		
-		this.trigger("tile-clicked"); // TODO need to propagate a gift-tile-clicked event; if it ends up chaining all the way up from GiftTile then this event should do the same for consistency
+		this.trigger("tile:revealed");
 	}
 });
 
@@ -300,14 +297,14 @@ var InfoView = Backbone.View.extend({
 	
 	nextLevel: function() {
 	
-		var that = this;
+		var self = this;
 		
 		this.$el.addClass("animated fadeOutLeft"); // TODO need a reset that removes these again and is called on initialize...(?) same for stats pane probably
 
 		$(setTimeout(function() {
 
-			that.$el.hide();
-			that.trigger("next-level");
+			self.$el.hide();
+			self.trigger("next:level");
 		
 		}, 400));
 	}
@@ -336,14 +333,17 @@ var App = Backbone.Model.extend({
 
 	initialize: function() {
 	
+		var self = this;
+	
 		this.set({
 			level: 1,
 			moves: 25,
-			movesRemaining: 25,
 			fires: 4,
 			arrows: 5,
 			numbers: 5
 		});
+		
+		this.set({ movesRemaining: self.get("moves") });
 	}
 });
 
@@ -351,12 +351,12 @@ var AppView = Backbone.View.extend({
 
 	model: new App(),
 
-	el: "#game",
+	el: "#game", // TODO decouple, pass into constructor
 	
 	initialize: function() {
 
 		this.info = new InfoView({ model: this.model });
-		this.listenTo(this.info, "next-level", this.nextLevel);
+		this.listenTo(this.info, "next:level", this.nextLevel);
 		
 		this.stats = new StatsView({ model: this.model });
 		
@@ -365,27 +365,34 @@ var AppView = Backbone.View.extend({
 	
 	nextLevel: function() {
 	
-		var that = this;
+		var self = this;
 		
 		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
-		this.listenTo(this.grid, "tile-clicked", this.tileClicked);
-		
+		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
 		
 		this.grid.show();
 		
-		$(setTimeout(function() {
-
-			that.stats.show();
-		
-		}, 1000));
+		$(setTimeout(function() { self.stats.show() }, 1000));
 	},
 	
-	tileClicked: function() {
+	tileRevealed: function() {
 	
-		// TODO if 0, unbind click events (if possible + necessary), call this.gameOver();
-	
-		this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
+		// Just in case, prevent moves remaining from ever displaying below 0
+		if (this.model.get("movesRemaining") > 0)
+			this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
+		
 		this.stats.render();
+		
+		if (this.model.get("movesRemaining") == 0)
+			this.gameOver();
+	},
+	
+	gameOver: function() {
+
+		var self = this;
+		
+		this.stopListening();
+		this.grid.children.each(function(child) { child.undelegateEvents() });
 	}
 });
 

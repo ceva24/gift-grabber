@@ -51,7 +51,31 @@ body {
 }
 
 .stats-panel {
-	padding-bottom: 40px;
+	text-align: center;
+}
+
+@media(min-width: 768px) {
+	.stats-panel {
+		padding-bottom: 40px;
+	}
+}
+
+.stats-row {
+	padding-bottom: 10px;
+}
+
+@media(min-width: 768px) {
+	.stats-row {
+		padding-bottom: 0;
+	}
+}
+
+.tile-stats {
+	padding-right: 10px;
+}
+
+.level-text {
+	font-size: large;
 }
 
 .grid {
@@ -96,6 +120,7 @@ body {
 	border-radius: 4px;
 	height: 30px;
 	width: 30px;
+	font-size: small;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -134,4 +159,8 @@ body {
 
 .glyphicon {
 	vertical-align: -10%;
+}
+
+.texticon {
+	top: -1px;
 }

@@ -370,6 +370,7 @@ var AppView = Backbone.View.extend({
 		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
 		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
 		
+		this.stats.render();
 		this.grid.show();
 		
 		$(setTimeout(function() { self.stats.show() }, 1000));

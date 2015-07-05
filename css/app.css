@@ -51,6 +51,7 @@ body {
 }
 
 .stats-panel {
+	opacity: 0;
 	text-align: center;
 }
 

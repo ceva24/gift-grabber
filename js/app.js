@@ -34,10 +34,10 @@ var Grid = Backbone.Model.extend({
 			for (var x = 1; x <= 9; x++)
 				this.grid.add(new Tile({ x: x, y: y }));
 			
-		this.populateGrid();
+		this.populateIcons();
 	},
 	
-	populateGrid: function() {
+	populateIcons: function() {
 
 		var self = this;
 		

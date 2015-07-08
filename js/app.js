@@ -127,8 +127,8 @@ var TileView = Backbone.Marionette.ItemView.extend({
 	className: "grid-cell",
 
 	events: {
-		"click": "reveal",
-		"tap": "reveal"
+		"click": "tileClicked",
+		"tap": "tileClicked"
 	},
 
 	render: function() {
@@ -150,15 +150,21 @@ var TileView = Backbone.Marionette.ItemView.extend({
 		return this;
 	},
 	
-	reveal: function() {
+	tileClicked: function() {
 	
 		if (!this.model.get("revealed")) {
 		
-			this.model.set("revealed", true);
+			this.reveal();
 			this.performAction();
 			this.trigger("tile:revealed");
-			this.render();
+
 		}
+	},
+	
+	reveal: function() {
+
+		this.model.set("revealed", true);
+		this.render();
 	},
 	
 	hide: function() {
@@ -188,6 +194,13 @@ var GiftTileView = TileView.extend({ // TODO new icons or pngs
 	
 		this.$el.addClass("good");
 		this.$el.html('<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>');
+	},
+	
+	reveal: function() {
+	
+		TileView.prototype.reveal.call(this);
+		
+		this.trigger("win:level");
 	}
 });
 
@@ -273,9 +286,29 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 		this.render();
 	},
 	
+	revealAll: function() {
+	
+		var delay = 0;
+
+		this.children.each(function(tile) {
+		
+			if(!tile.model.get("revealed")) {
+			
+				setTimeout(function() { tile.reveal() }, delay );
+				
+				delay += 75;
+			}
+		});
+	},
+	
 	onChildviewTileRevealed: function() {
 		
 		this.trigger("tile:revealed");
+	},
+	
+	onChildviewWinLevel: function() {
+	
+		this.trigger("win:level");
 	}
 });
 
@@ -369,6 +402,7 @@ var AppView = Backbone.View.extend({
 		
 		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
 		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
+		this.listenTo(this.grid, "win:level", this.winLevel);
 		
 		this.stats.render();
 		this.grid.show();
@@ -377,7 +411,7 @@ var AppView = Backbone.View.extend({
 	},
 	
 	tileRevealed: function() {
-	
+
 		// Just in case, prevent moves remaining from ever displaying below 0
 		if (this.model.get("movesRemaining") > 0)
 			this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
@@ -390,6 +424,20 @@ var AppView = Backbone.View.extend({
 	
 	gameOver: function() {
 
+		this.disableBoard();
+		
+		this.grid.revealAll();
+	},
+	
+	winLevel: function() {
+	
+		this.disableBoard();
+		
+		this.grid.revealAll();
+	},
+	
+	disableBoard: function() {
+	
 		this.stopListening();
 		this.grid.children.each(function(child) { child.undelegateEvents() });
 	}

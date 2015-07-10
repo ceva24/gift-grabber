@@ -116,14 +116,22 @@ body {
 .grid-cell {
 	display: table-cell;
 	background-color: #d9edf7;
-	border-right: 2px solid #98a6ad;
-	border-bottom: 2px solid #98a6ad;
-	border-radius: 4px;
+	border-right: 1px solid #98a6ad;
+	border-bottom: 1px solid #98a6ad;
+	border-radius: 2px;
 	height: 30px;
 	width: 30px;
 	font-size: small;
 	text-align: center;
 	vertical-align: middle;
+}
+
+@media(min-width: 480px) {
+	.grid-cell {
+		border-right: 2px solid #98a6ad;
+		border-bottom: 2px solid #98a6ad;
+		border-radius: 4px;
+	}
 }
 
 @media(min-width: 480px) {
@@ -143,10 +151,17 @@ body {
 }
 
 .grid-cell.revealed {
-	border-top: 2px solid #98a6ad;
-	border-left: 2px solid #98a6ad;
+	border-top: 1px solid #98a6ad;
+	border-left: 1px solid #98a6ad;
 	border-bottom: none;
 	border-right: none;
+}
+
+@media(min-width: 480px) {
+	.grid-cell.revealed {
+		border-top: 2px solid #98a6ad;
+		border-left: 2px solid #98a6ad;
+	}
 }
 
 .revealed.bad {

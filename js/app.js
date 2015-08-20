@@ -1,6 +1,3 @@
-// TODO separate files
-// TODO build procedure
-
 IconEnum = {
 	ARROW: 0,
 	NUMBER: 1,
@@ -41,8 +38,6 @@ var Grid = Backbone.Model.extend({
 	populateIcons: function() {
 
 		var self = this;
-		
-		//this.grid.each(function(tile) { tile.set("icon", null) }); // Reset previous icons TODO use in future ShuffleTile
 
 		var tiles = this.grid.models.slice();
 
@@ -71,8 +66,6 @@ var Grid = Backbone.Model.extend({
 
 			var randomLocation = Math.floor(Math.random() * (tiles.length - 1));
 			var tile = tiles[randomLocation];
-
-			//console.log("adding " + icon + " to tile " + tile.get("x") + "," + tile.get("y"));
 
 			var value;
 			switch(icon) {
@@ -177,6 +170,7 @@ var TileView = Backbone.Marionette.ItemView.extend({
 		if (this.model.get("revealed")) {
 			
 			this.model.set("revealed", false);
+			this.render();
 		}
 	},
 	
@@ -222,6 +216,13 @@ var FireTileView = TileView.extend({
 		this.$el.html('<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>');
 	},
 	
+	hide: function() {
+	
+		TileView.prototype.hide.call(this);
+		
+		this.$el.removeClass("animated pulse");
+	},
+	
 	performAction: function() {
 	
 		var self = this;
@@ -231,10 +232,7 @@ var FireTileView = TileView.extend({
 		this.collection.each(function(tileView) {
 
 			// Hide all tiles except this one
-			if (tileView != self) {
-				tileView.hide();
-				tileView.render();
-			}
+			if (tileView != self) tileView.hide();
 		});
 	}
 });
@@ -395,8 +393,6 @@ var AppView = Backbone.View.extend({
 
 	model: new App(),
 
-	el: "#game", // TODO decouple, pass into constructor
-	
 	initialize: function() {
 
 		this.startScreen = new StartScreenView({ model: this.model });
@@ -465,6 +461,4 @@ var AppView = Backbone.View.extend({
 	}
 });
 
-// TODO need a restart button
-
-new AppView();
+new AppView({ el: "#game" });

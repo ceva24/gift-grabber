@@ -6,7 +6,7 @@ IconEnum = {
 	NUMBER: 1,
 	FIRE: 2,
 	GIFT: 3
-	// TODO new icons? reveal area, moves, others? shuffle? <- later levels
+	// TODO new icons? reveal area, moves, others? shuffle?
 };
 
 var Icon = Backbone.Model.extend({});
@@ -16,6 +16,7 @@ var Tile = Backbone.Model.extend({
 	initialize: function() {
 	
 		this.revealed = false;
+		this.dead = false;
 	}
 });
 
@@ -70,7 +71,7 @@ var Grid = Backbone.Model.extend({
 
 			var randomLocation = Math.floor(Math.random() * (tiles.length - 1));
 			var tile = tiles[randomLocation];
-			
+
 			//console.log("adding " + icon + " to tile " + tile.get("x") + "," + tile.get("y"));
 
 			var value;
@@ -138,6 +139,10 @@ var TileView = Backbone.Marionette.ItemView.extend({
 			this.$el.addClass("revealed");
 			this.addContent();
 		}
+		else if (this.model.get("dead")) {
+			
+			this.$el.addClass("dead");
+		}
 		else {
 			
 			this.$el.removeClass("revealed"); 
@@ -192,7 +197,7 @@ var GiftTileView = TileView.extend({ // TODO new icons or pngs
 
 	addContent: function() {
 	
-		this.$el.addClass("good");
+		this.$el.addClass("gift");
 		this.$el.html('<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>');
 	},
 	
@@ -200,7 +205,12 @@ var GiftTileView = TileView.extend({ // TODO new icons or pngs
 	
 		TileView.prototype.reveal.call(this);
 		
-		this.trigger("win:level");
+		this.trigger("win");
+	},
+	
+	performAction: function() {
+	
+		this.$(".glyphicon").addClass("animated flash");
 	}
 });
 
@@ -215,6 +225,8 @@ var FireTileView = TileView.extend({
 	performAction: function() {
 	
 		var self = this;
+		
+		this.$el.addClass("animated pulse");
 
 		this.collection.each(function(tileView) {
 
@@ -282,7 +294,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	
 	show: function() {
 		
-		this.$el.addClass("animated fadeInRight");
+		this.$el.addClass("animated fadeIn");
 		this.render();
 	},
 	
@@ -306,20 +318,20 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 		this.trigger("tile:revealed");
 	},
 	
-	onChildviewWinLevel: function() {
+	onChildviewWin: function() {
 	
-		this.trigger("win:level");
+		this.trigger("win");
 	}
 });
 
-var InfoView = Backbone.View.extend({
+var StartScreenView = Backbone.View.extend({
 
-	el: "#info-screen",
+	el: "#start-screen",
 	
-	template: _.template($("#template-info").html()),
+	template: _.template($("#template-start").html()),
 	
 	events: {
-		"click #info-text": "nextLevel"
+		"click #start-button": "start"
 	},
 	
 	render: function() {
@@ -328,16 +340,16 @@ var InfoView = Backbone.View.extend({
 		return this;
 	},
 	
-	nextLevel: function() {
+	start: function() {
 	
 		var self = this;
 		
-		this.$el.addClass("animated fadeOutLeft"); // TODO need a reset that removes these again and is called on initialize...(?) same for stats pane probably
+		this.$el.addClass("animated fadeOut");
 
 		$(setTimeout(function() {
 
 			self.$el.hide();
-			self.trigger("next:level");
+			self.trigger("start");
 		
 		}, 400));
 	}
@@ -369,7 +381,6 @@ var App = Backbone.Model.extend({
 		var self = this;
 	
 		this.set({
-			level: 1,
 			moves: 25,
 			fires: 4,
 			arrows: 5,
@@ -388,21 +399,21 @@ var AppView = Backbone.View.extend({
 	
 	initialize: function() {
 
-		this.info = new InfoView({ model: this.model });
-		this.listenTo(this.info, "next:level", this.nextLevel);
+		this.startScreen = new StartScreenView({ model: this.model });
+		this.listenTo(this.startScreen, "start", this.start);
 		
 		this.stats = new StatsView({ model: this.model });
 		
-		this.info.render();
+		this.startScreen.render();
 	},
 	
-	nextLevel: function() {
+	start: function() {
 	
 		var self = this;
 		
 		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
 		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
-		this.listenTo(this.grid, "win:level", this.winLevel);
+		this.listenTo(this.grid, "win", this.win);
 		
 		this.stats.render();
 		this.grid.show();
@@ -419,21 +430,32 @@ var AppView = Backbone.View.extend({
 		this.stats.render();
 		
 		if (this.model.get("movesRemaining") == 0)
-			this.gameOver();
+			this.lose();
 	},
 	
-	gameOver: function() {
+	lose: function() {
+	
+		this.grid.children.each(function(child) { 
+		
+			child.model.set("dead", true); 
+			child.render(); 
+		});
 
-		this.disableBoard();
-		
-		this.grid.revealAll();
+		this.reveal();
 	},
 	
-	winLevel: function() {
+	win: function() {
 	
-		this.disableBoard();
+		this.reveal();
+	},
+	
+	reveal: function() {
+	
+		var self = this;
 		
-		this.grid.revealAll();
+		this.disableBoard();
+	
+		$(setTimeout(function() { self.grid.revealAll() }, 1000));
 	},
 	
 	disableBoard: function() {

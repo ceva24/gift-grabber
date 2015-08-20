@@ -1,5 +1,6 @@
 body {
 	font-family: 'Chewy', cursive;
+	background-color: #F4FAFD;
 }
 
 /*hr {
@@ -40,14 +41,13 @@ body {
 	padding-left: 0;
 }*/
 
-.info-screen {
+.start-screen {
 	text-align: center; 
 	padding-top: 20%;
-	font-size: xx-large;
 }
 
-#info-text {
-	cursor: pointer;
+.btn-start-screen {
+	font-size: xx-large;
 }
 
 .stats-panel {
@@ -164,13 +164,21 @@ body {
 	}
 }
 
+.grid-cell.dead {
+	background-color: #E2E2E2;
+}
+
 .revealed.bad {
 	color: red;
 	background-color: #f2dede;
 }
 
-.revealed.neutral, .revealed.good { /* TODO colors - darker color for good? unique color for gift? */
+.revealed.neutral, .revealed.good {
 	background-color: #dff0d8;
+}
+
+.revealed.gift {
+	background-color: #FFEB99;
 }
 
 .glyphicon {

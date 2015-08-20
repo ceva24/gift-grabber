@@ -5,11 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chewy">
 	
-	<link href="css/app.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+	
+	<link rel="icon" href="favicon.ico">
+	
+	<title>Gift Grabber</title>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,12 +27,12 @@
 	<div class="container">
 
 		<div class="header">
-			<h1>Game</h1>
+			<h1>Gift Grabber</h1>
 		</div>
 
 		<div id="game">
 
-			<div id="info-screen" class="info-screen col-xs-12"></div>
+			<div id="start-screen" class="start-screen col-xs-12"></div>
 
 			<div id="stats" class="stats-panel"></div>
 
@@ -58,12 +62,18 @@
 	</div>
 
 	<!-- Backbone templates -->
-	<script type="text/template" id="template-info">
-		<span id="info-text" class="animated pulse infinite">Start <span class="start-icon glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+	<script type="text/template" id="template-start">
+	<div>
+		<button id="start-button" type="button" class="btn btn-default btn-start-screen" onclick="this.blur();"><span class="animated pulse infinite">Start</span></button>
+	</div>
+	<br><br>
+	<div>
+		<button type="button" class="btn btn-default btn-start-screen" onclick="this.blur();">Rules</button>
+	</div>
 	</script>
 
 	<script type="text/template" id="template-stats">
-		<div class="col-sm-5 col-sm-offset-1 stats-row"><span style="padding-right: 10%">Level: <%- level %></span> Moves: <%- movesRemaining %>/<%- moves %></div>
+		<div class="col-sm-5 col-sm-offset-1 stats-row"></span> Moves: <%- movesRemaining %>/<%- moves %></div>
 		<div class="col-sm-5 stats-row">
 			<span class="tile-stats"><span class="stats-tile revealed good glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <%- arrows %></span>
 			<span class="tile-stats"><span class="stats-tile revealed good" aria-hidden="true">3</span> <%- numbers %></span>

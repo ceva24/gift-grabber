@@ -322,7 +322,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	}
 });
 
-var StartScreenView = Backbone.View.extend({
+var StartView = Backbone.View.extend({
 
 	el: "#start-screen",
 	
@@ -395,7 +395,7 @@ var AppView = Backbone.View.extend({
 
 	initialize: function() {
 
-		this.startScreen = new StartScreenView({ model: this.model });
+		this.startScreen = new StartView({ model: this.model });
 		this.listenTo(this.startScreen, "start", this.start);
 		
 		this.stats = new StatsView({ model: this.model });

@@ -8,6 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chewy">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fontdiner+Swanky">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:700">
 	
 	<link rel="stylesheet" type="text/css" href="css/gift-grabber.css">
 	
@@ -16,13 +18,18 @@
 	<title>Gift Grabber</title>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!-- WARNING: Respond.js doesn"t work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
+  
+	<div class="about">
+		About
+		<!--a href="http://www.ceva24.co.uk">Chris Evans</a>, 2015. Created with Bootstrap and Backbone.js.-->
+	</div>
 
 	<div class="container">
 
@@ -30,46 +37,24 @@
 			<h1>Gift Grabber</h1>
 		</div>
 
-		<div id="game">
-
-			<div id="start-screen" class="start-screen col-xs-12"></div>
-
-			<div id="stats" class="stats-panel"></div>
-
-			<div class="col-xs-12">
-				<div id="game-grid" class="grid"></div>
-			</div>
-
-		</div>
-
-		<!--div id="info-screen" class="info-screen col-xs-12"></div>
-
+		<div id="start-screen" class="start-screen col-xs-12"></div>
 
 		<div id="stats" class="stats-panel"></div>
 		<div id="game" class="col-xs-12">
 			<div id="game-grid" class="grid"></div>
-		</div-->
-
-		<!--footer id="footer"> 
-			<div class="container footer-container">
-				<div class="col-xs-12">
-					<hr>
-					<a href="http://www.ceva24.co.uk">Chris Evans</a>, 2015. Created with Bootstrap and Backbone.js.
-				</div>
-			</div>
-		</footer-->
+		</div>
 
 	</div>
 
 	<!-- Backbone templates -->
 	<script type="text/template" id="template-start">
-	<div>
-		<button id="start-button" type="button" class="btn btn-default btn-start-screen" onclick="this.blur();"><span class="animated pulse infinite">Start</span></button>
-	</div>
-	<br><br>
-	<div>
-		<button type="button" class="btn btn-default btn-start-screen" onclick="this.blur();">Rules</button>
-	</div>
+		<div>
+			<button id="start-button" type="button" class="btn btn-default btn-start-screen" onclick="this.blur();"><span class="animated pulse infinite">Start</span></button>
+		</div>
+		<br><br>
+		<div>
+			<button type="button" class="btn btn-default btn-start-screen" onclick="this.blur();">Rules</button>
+		</div>
 	</script>
 
 	<script type="text/template" id="template-stats">
@@ -88,7 +73,5 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.2/backbone.marionette.js"></script>
 
 	<script type="text/javascript" src="js/gift-grabber.js"></script>
-	
-
   </body>
 </html>

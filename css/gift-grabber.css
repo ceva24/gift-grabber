@@ -1,53 +1,56 @@
 body {
-	font-family: 'Chewy', cursive;
+	font-family: 'Raleway', sans-serif;
 	background-color: #F4FAFD;
 }
 
-/*hr {
-	border-top: 1px solid #9ca897;
-}*/
-
 .container {
-	padding-top: 4%;
+	margin-top: 4%;
+	margin-bottom: 4%;
 }
 
 .header {
-	padding-bottom: 8%;
+	margin-bottom: 8%;
 }
 
 .header h1 {
-	font-size: 400%;
+	font-family: 'Fontdiner Swanky', cursive;
+	font-size: 300%;
 	text-align: center;
 }
 
-/*html {
-  position: relative;
-  min-height: 90%;
-}
-body {
-  margin-bottom: 60px;
+@media(min-width: 768px) {
+	.header h1 {
+		font-size: 500%;
+	}
 }
 
-#footer {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	padding: 40px 0px 40px 0px;
-	text-align: center;
+.about {
+	color: #B0DAEE;
 	position: absolute;
-	bottom: 0;
-	height: 60px;
+	top: 0;
+	right: 0;
+	margin-right: 2%;
+	margin-top: 1%;
+	text-align: right;
 }
-
-.footer-container {
-	padding-left: 0;
-}*/
 
 .start-screen {
 	text-align: center; 
-	padding-top: 20%;
+	margin-top: 20%;
+}
+
+@media(min-width: 768px) {
+	.start-screen {
+		margin-top: 10%;
+	}
 }
 
 .btn-start-screen {
 	font-size: xx-large;
+}
+
+#stats, #game {
+	font-family: 'Chewy', cursive;
 }
 
 .stats-panel {
@@ -62,17 +65,17 @@ body {
 }
 
 .stats-row {
-	padding-bottom: 1%;
+	margin-bottom: 1%;
 }
 
 @media(min-width: 768px) {
 	.stats-row {
-		padding-bottom: 0;
+		margin-bottom: 0;
 	}
 }
 
 .tile-stats {
-	padding-right: 2%;
+	margin-right: 2%;
 }
 
 .level-text {

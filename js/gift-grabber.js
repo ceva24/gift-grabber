@@ -325,17 +325,9 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 var StartView = Backbone.View.extend({
 
 	el: "#start-screen",
-	
-	template: _.template($("#template-start").html()),
-	
+
 	events: {
 		"click #start-button": "start"
-	},
-	
-	render: function() {
-		
-		this.$el.html(this.template(this.model.attributes));
-		return this;
 	},
 	
 	start: function() {

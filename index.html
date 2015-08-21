@@ -34,15 +34,13 @@
 			
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">About</h4>
+					<h4 class="modal-title">About</h4>
 				</div>
 				
-				<div class="modal-body" style="text-align: center">
+				<div class="modal-body">
 					Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
 					<br><br>
-					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015.
-					<br>
-					View the <a href="https://www.github.com/Ceva24/gift-grabber">source code</a> on Github!
+					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015. View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
 				</div>
 				
 				<div class="modal-footer">
@@ -58,7 +56,35 @@
 			<h1>Gift Grabber</h1>
 		</div>
 
-		<div id="start-screen" class="start-screen col-xs-12"></div>
+		<div id="start-screen" class="start-screen col-xs-12">
+			<div>
+				<button id="start-button" type="button" class="btn btn-default btn-start-screen"><span class="animated pulse infinite">Start</span></button>
+			</div>
+			<br><br>
+			<div>
+				<button type="button" class="btn btn-default btn-start-screen" data-toggle="modal" data-target="#rules">Rules</button>
+			</div>
+		</div>
+		
+		<div id="rules" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Rules</h4>
+					</div>
+					
+					<div class="modal-body">
+						...
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div id="stats" class="stats-panel"></div>
 		<div id="game" class="col-xs-12">
@@ -68,16 +94,6 @@
 	</div>
 
 	<!-- Backbone templates -->
-	<script type="text/template" id="template-start">
-		<div>
-			<button id="start-button" type="button" class="btn btn-default btn-start-screen" onclick="this.blur();"><span class="animated pulse infinite">Start</span></button>
-		</div>
-		<br><br>
-		<div>
-			<button type="button" class="btn btn-default btn-start-screen" onclick="this.blur();">Rules</button>
-		</div>
-	</script>
-
 	<script type="text/template" id="template-stats">
 		<div class="col-sm-5 col-sm-offset-1 stats-row"></span> Moves: <%- movesRemaining %>/<%- moves %></div>
 		<div class="col-sm-5 stats-row">

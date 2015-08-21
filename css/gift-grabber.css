@@ -24,6 +24,10 @@ body {
 	}
 }
 
+.modal-body {
+	text-align: center;
+}
+
 .about {
 	cursor: pointer;
 	color: #B0DAEE;

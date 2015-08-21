@@ -26,9 +26,30 @@
   </head>
   <body>
   
-	<div class="about">
-		About
-		<!--a href="http://www.ceva24.co.uk">Chris Evans</a>, 2015. Created with Bootstrap and Backbone.js.-->
+	<div class="about" data-toggle="modal" data-target="#about">About</div>
+	
+	<div id="about" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">About</h4>
+				</div>
+				
+				<div class="modal-body" style="text-align: center">
+					Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
+					<br><br>
+					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015.
+					<br>
+					View the <a href="https://www.github.com/Ceva24/gift-grabber">source code</a> on Github!
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="container">

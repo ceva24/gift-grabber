@@ -25,6 +25,7 @@ body {
 }
 
 .about {
+	cursor: pointer;
 	color: #B0DAEE;
 	position: absolute;
 	top: 0;

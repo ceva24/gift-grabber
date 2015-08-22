@@ -27,14 +27,34 @@
   <body>
   
 	<div id="about-button" data-toggle="modal" data-target="#about">About</div>
+
+	<div class="container">
+
+		<div class="header">
+			<h1>Gift Grabber</h1>
+		</div>
+
+		<div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
+			<span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
+			<span class="btn btn-primary">Restart</span>
+		</div>
+		
+		<div id="stats" class="stats-panel"></div>
+		
+		<div id="game" class="col-xs-12">
+			<div id="game-grid" class="grid"></div>
+		</div>
+
+	</div>
 	
-	<div id="about" class="modal fade" tabindex="-1" role="dialog">
+	<!-- Modal dialogs -->
+	<div id="about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="about-modal-title">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 			
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">About</h4>
+					<h4 id="about-modal-title" class="modal-title">About</h4>
 				</div>
 				
 				<div class="modal-body">
@@ -51,86 +71,63 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="container">
-
-		<div class="header">
-			<h1>Gift Grabber</h1>
-		</div>
-
-		<div id="start-screen" class="start-screen col-xs-12">
-			<div>
-				<button id="start-button" type="button" class="btn btn-default btn-start-screen"><span class="animated pulse infinite">Start</span></button>
-			</div>
-			<br><br>
-			<div>
-				<button type="button" class="btn btn-default btn-start-screen" data-toggle="modal" data-target="#rules">Rules</button>
-			</div>
-		</div>
-		
-		<div id="rules" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
+	
+	<div id="rules" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="rules-modal-title">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 id="rules-modal-title" class="modal-title">Rules</h4>
+				</div>
 				
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Rules</h4>
-					</div>
-					
-					<div class="modal-body">
-						<div class="container-fluid">
-							<div class="row rules-row">
-								<div class="col-lg-6">
-									<div id="gift-rules-text" class="rules-text">Find the gift tile!</div>
-								</div>
-								<div class="col-lg-6">
-									<img src="images/gift-tile.png">
-								</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row rules-row">
+							<div class="col-lg-6">
+								<div id="gift-rules-text" class="rules-text">Find the gift tile!</div>
 							</div>
-							<div class="row rules-row">
-								<div class="col-lg-6">
-									<div id="arrow-rules-text" class="rules-text">Arrows indicate the general direction the gift tile is in</div>
-								</div>
-								<div class="col-lg-6">
-									<img src="images/arrow-tile.png">
-								</div>
+							<div class="col-lg-6">
+								<img src="images/gift-tile.png">
 							</div>
-							<div class="row rules-row">
-								<div class="col-lg-6">
-									<div id="number-rules-text" class="rules-text">Numbers represent how far away the gift tile is (Doesn't include diagonal movement!)</div>
-								</div>
-								<div class="col-lg-6">
-									<img src="images/number-tile.png">
-								</div>
+						</div>
+						<div class="row rules-row">
+							<div class="col-lg-6">
+								<div id="arrow-rules-text" class="rules-text">Arrows indicate the general direction the gift tile is in</div>
 							</div>
-							<div class="row rules-row">
-								<div class="col-lg-6">
-									<div id="fire-rules-text" class="rules-text">Watch out for fires, they will hide all other revealed tiles on the board!</div>
-								</div>
-								<div class="col-lg-6">
-									<img src="images/fire-tile.png">
-								</div>
+							<div class="col-lg-6">
+								<img src="images/arrow-tile.png">
 							</div>
-							<div class="row rules-row">
-								<div class="col-lg-12">
-									<div class="rules-text">The number and location of tiles varies from game to game, so some games will be harder than others!</div>
-								</div>
+						</div>
+						<div class="row rules-row">
+							<div class="col-lg-6">
+								<div id="number-rules-text" class="rules-text">Numbers represent how far away the gift tile is (Doesn't include diagonal movement!)</div>
+							</div>
+							<div class="col-lg-6">
+								<img src="images/number-tile.png">
+							</div>
+						</div>
+						<div class="row rules-row">
+							<div class="col-lg-6">
+								<div id="fire-rules-text" class="rules-text">Watch out for fires, they will hide all other revealed tiles on the board!</div>
+							</div>
+							<div class="col-lg-6">
+								<img src="images/fire-tile.png">
+							</div>
+						</div>
+						<div class="row rules-row">
+							<div class="col-lg-12">
+								<div class="rules-text">The number and location of tiles varies from game to game, so some games will be harder than others!</div>
 							</div>
 						</div>
 					</div>
-					
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
-
-		<div id="stats" class="stats-panel"></div>
-		<div id="game" class="col-xs-12">
-			<div id="game-grid" class="grid"></div>
-		</div>
-
 	</div>
 
 	<!-- Backbone templates -->

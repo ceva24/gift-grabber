@@ -322,29 +322,6 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	}
 });
 
-var StartView = Backbone.View.extend({
-
-	el: "#start-screen",
-
-	events: {
-		"click #start-button": "start"
-	},
-	
-	start: function() {
-	
-		var self = this;
-		
-		this.$el.addClass("animated fadeOut");
-
-		$(setTimeout(function() {
-
-			self.$el.hide();
-			self.trigger("start");
-		
-		}, 400));
-	}
-});
-
 var StatsView = Backbone.View.extend({
 
 	el: "#stats",
@@ -383,16 +360,13 @@ var App = Backbone.Model.extend({
 
 var AppView = Backbone.View.extend({
 
+	el: "#game",
+
 	model: new App(),
 
 	initialize: function() {
 
-		this.startScreen = new StartView({ model: this.model });
-		this.listenTo(this.startScreen, "start", this.start);
-		
-		this.stats = new StatsView({ model: this.model });
-		
-		this.startScreen.render();
+		this.start();
 	},
 	
 	start: function() {
@@ -402,6 +376,8 @@ var AppView = Backbone.View.extend({
 		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
 		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
 		this.listenTo(this.grid, "win", this.win);
+		
+		this.stats = new StatsView({ model: this.model });
 		
 		this.stats.render();
 		this.grid.show();
@@ -442,7 +418,7 @@ var AppView = Backbone.View.extend({
 		var self = this;
 		
 		this.disableBoard();
-	
+
 		$(setTimeout(function() { self.grid.revealAll() }, 1000));
 	},
 	
@@ -453,4 +429,4 @@ var AppView = Backbone.View.extend({
 	}
 });
 
-new AppView({ el: "#game" });
+new AppView();

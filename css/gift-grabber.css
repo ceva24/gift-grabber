@@ -4,12 +4,12 @@ body {
 }
 
 .container {
-	margin-top: 4%;
-	margin-bottom: 4%;
+	margin-top: 2%;
+	margin-bottom: 2%;
 }
 
 .header {
-	margin-bottom: 8%;
+	margin-bottom: 4%;
 }
 
 .header h1 {
@@ -46,19 +46,35 @@ body {
 	text-align: center;
 }
 
-.start-screen {
-	text-align: center; 
-	margin-top: 20%;
+#button-box {
+	width: 295px;
+	max-width: 95%;
+	margin: auto;
+	margin-bottom: 4%;
+	text-align: center;
 }
 
-@media(min-width: 768px) {
-	.start-screen {
-		margin-top: 10%;
+@media(min-width: 480px) {
+	#button-box {
+		width: 438px;
 	}
 }
 
-.btn-start-screen {
-	font-size: xx-large;
+@media(min-width: 768px) {
+	#button-box {
+		width: 680px;
+	}
+}
+
+@media(min-width: 992px) {
+	#button-box {
+		width: 718px;
+	}
+}
+
+#button-box .btn {
+	margin-left: 25px;
+	margin-right: 25px;
 }
 
 #rules {

@@ -61,6 +61,10 @@ body {
 	font-size: xx-large;
 }
 
+#rules {
+	text-align: center;
+}
+
 .rules-row {
 	margin-bottom: 25px;
 }

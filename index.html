@@ -26,7 +26,7 @@
   </head>
   <body>
   
-	<div class="about" data-toggle="modal" data-target="#about">About</div>
+	<div id="about-button" data-toggle="modal" data-target="#about">About</div>
 	
 	<div id="about" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -40,7 +40,9 @@
 				<div class="modal-body">
 					Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
 					<br><br>
-					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015. View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
+					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015 using Bootstrap and Backbone.js. 
+					<br>
+					View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
 				</div>
 				
 				<div class="modal-footer">
@@ -66,7 +68,7 @@
 			</div>
 		</div>
 		
-		<div id="rules" class="modal fade" tabindex="-1" role="dialog">
+		<div id="rules" class="modal fade" tabindex="-1" role="dialog" style="text-align: center">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 				
@@ -76,7 +78,45 @@
 					</div>
 					
 					<div class="modal-body">
-						...
+						<div class="container-fluid">
+							<div class="row rules-row">
+								<div class="col-lg-6">
+									<div id="gift-rules-text" class="rules-text">Find the gift tile!</div>
+								</div>
+								<div class="col-lg-6">
+									<img src="images/gift-tile.png">
+								</div>
+							</div>
+							<div class="row rules-row">
+								<div class="col-lg-6">
+									<div id="arrow-rules-text" class="rules-text">Arrows indicate the general direction the gift tile is in</div>
+								</div>
+								<div class="col-lg-6">
+									<img src="images/arrow-tile.png">
+								</div>
+							</div>
+							<div class="row rules-row">
+								<div class="col-lg-6">
+									<div id="number-rules-text" class="rules-text">Numbers represent how far away the gift tile is (Doesn't include diagonal movement!)</div>
+								</div>
+								<div class="col-lg-6">
+									<img src="images/number-tile.png">
+								</div>
+							</div>
+							<div class="row rules-row">
+								<div class="col-lg-6">
+									<div id="fire-rules-text" class="rules-text">Watch out for fires, they will hide all other revealed tiles on the board!</div>
+								</div>
+								<div class="col-lg-6">
+									<img src="images/fire-tile.png">
+								</div>
+							</div>
+							<div class="row rules-row">
+								<div class="col-lg-12">
+									<div class="rules-text">The number and location of tiles varies from game to game, so some games will be harder than others!</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					
 					<div class="modal-footer">

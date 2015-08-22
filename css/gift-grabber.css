@@ -24,19 +24,26 @@ body {
 	}
 }
 
-.modal-body {
-	text-align: center;
-}
-
-.about {
+#about-button {
+	font-size: small;
 	cursor: pointer;
 	color: #B0DAEE;
+	text-align: right;
 	position: absolute;
 	top: 0;
 	right: 0;
 	margin-right: 2%;
 	margin-top: 1%;
-	text-align: right;
+}
+
+@media(min-width: 768px) {
+	#about-button {
+		font-size: medium;
+	}
+}
+
+#about {
+	text-align: center;
 }
 
 .start-screen {
@@ -52,6 +59,29 @@ body {
 
 .btn-start-screen {
 	font-size: xx-large;
+}
+
+.rules-row {
+	margin-bottom: 25px;
+}
+
+.rules-text {
+	display: flex; 
+	justify-content: center;
+	flex-direction: column;
+	height: 46px;
+}
+
+@media(min-width: 1200px) {
+	#arrow-rules-text {
+		height: 197px;
+	}
+}
+
+@media(min-width: 1200px) {
+	#number-rules-text {
+		height: 246px;
+	}
 }
 
 #stats, #game {

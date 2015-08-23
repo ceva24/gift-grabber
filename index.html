@@ -36,11 +36,11 @@
 
 		<div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
 			<span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
-			<span class="btn btn-primary">Restart</span>
+			<span class="btn btn-primary" disabled="disabled">Restart</button>
 		</div>
 		
 		<div id="stats" class="stats-panel"></div>
-		
+
 		<div id="game" class="col-xs-12">
 			<div id="game-grid" class="grid"></div>
 		</div>
@@ -138,6 +138,14 @@
 			<span class="tile-stats"><span class="stats-tile revealed good" aria-hidden="true">3</span> <%- numbers %></span>
 			<span class="tile-stats"><span class="stats-tile revealed bad glyphicon glyphicon-fire" aria-hidden="true"></span> <%- fires %></span>
 		</div>
+	</script>
+
+	<script type="text/template" id="template-end-dialog">
+		<% if (won) { %>
+			<div class="text-success">You Win!</div>
+		<% } else { %>
+			<div class="text-danger">You Lose!</div>
+		<% } %>
 	</script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

@@ -3,7 +3,7 @@ IconEnum = {
 	NUMBER: 1,
 	FIRE: 2,
 	GIFT: 3
-	// TODO new icons? reveal area, moves, others? shuffle?
+	// Future enhancements - new icons: reveal area, moves, shuffle
 };
 
 var Icon = Backbone.Model.extend({});
@@ -187,7 +187,7 @@ var EmptyTileView = TileView.extend({
 	}
 });
 
-var GiftTileView = TileView.extend({ // TODO new icons or pngs
+var GiftTileView = TileView.extend({
 
 	addContent: function() {
 	
@@ -298,13 +298,22 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	
 	revealAll: function() {
 	
+		var self = this;
+	
 		var delay = 0;
 
 		this.children.each(function(tile) {
 		
 			if(!tile.model.get("revealed")) {
 			
-				setTimeout(function() { tile.reveal() }, delay );
+				setTimeout(function() { 
+				
+					tile.reveal();
+					
+					if ((tile.model.get("x") === 9) && (tile.model.get("y") === 1))
+						self.trigger("end");
+
+				}, delay);
 				
 				delay += 75;
 			}
@@ -340,7 +349,6 @@ var StatsView = Backbone.View.extend({
 		this.render();
 	}
 });
-
 var App = Backbone.Model.extend({
 
 	initialize: function() {
@@ -348,6 +356,7 @@ var App = Backbone.Model.extend({
 		var self = this;
 	
 		this.set({
+			won: false,
 			moves: 25,
 			fires: 4,
 			arrows: 5,
@@ -355,6 +364,21 @@ var App = Backbone.Model.extend({
 		});
 		
 		this.set({ movesRemaining: self.get("moves") });
+	}
+});
+
+var EndDialogView = Backbone.View.extend({
+
+	id: "end-dialog",
+
+	className: "animated fadeIn",
+
+	template: _.template($("#template-end-dialog").html()),
+
+	render: function() {
+
+		this.$el.html(this.template(this.model.attributes));
+		return this;
 	}
 });
 
@@ -410,22 +434,41 @@ var AppView = Backbone.View.extend({
 	
 	win: function() {
 	
+		this.model.set("won", true);
+	
 		this.reveal();
 	},
 	
-	reveal: function() {
+	reveal: function(result) {
 	
 		var self = this;
 		
 		this.disableBoard();
+		
+		this.listenTo(this.grid, "end", this.showEndDialog);
 
-		$(setTimeout(function() { self.grid.revealAll() }, 1000));
+		setTimeout(function() { self.grid.revealAll() }, 1000);
 	},
 	
 	disableBoard: function() {
 	
 		this.stopListening();
 		this.grid.children.each(function(child) { child.undelegateEvents() });
+	},
+	
+	showEndDialog: function() {
+
+		var self = this;
+
+		setTimeout(function() {
+
+			$(".grid-row").fadeTo("slow", 0.5); 
+
+			var end = new EndDialogView({ model: self.model });
+			self.grid.$el.append(end.$el);
+			end.render();
+			
+		}, 1000);
 	}
 });
 

@@ -462,7 +462,7 @@ var AppView = Backbone.View.extend({
 
 		setTimeout(function() {
 
-			$(".grid-row").fadeTo("slow", 0.5); 
+			$(".stats-row, .grid-row").fadeTo("slow", 0.5); 
 
 			var end = new EndDialogView({ model: self.model });
 			self.grid.$el.append(end.$el);

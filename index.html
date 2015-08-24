@@ -5,151 +5,152 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chewy">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fontdiner+Swanky">
-	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:700">
-	
-	<link rel="stylesheet" type="text/css" href="css/gift-grabber.css">
-	
-	<link rel="icon" href="favicon.ico">
-	
-	<title>Gift Grabber</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chewy">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fontdiner+Swanky">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:700">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animate-3.4.0.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/gift-grabber.css">
+
+    <link rel="icon" href="favicon.ico">
+
+    <title>Gift Grabber</title>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn"t work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
-  
-	<div id="about-button" data-toggle="modal" data-target="#about">About</div>
 
-	<div id="game-container" class="container">
+    <div id="about-button" data-toggle="modal" data-target="#about">About</div>
 
-		<div class="header">
-			<h1>Gift Grabber</h1>
-		</div>
+    <div id="game-container" class="container">
 
-		<div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
-			<span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
-			<span id="restart-button" class="btn btn-primary">Restart</button>
-		</div>
+        <div class="header">
+            <h1>Gift Grabber</h1>
+        </div>
 
-		<div id="game" class="col-xs-12"></div>
+        <div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
+            <span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
+            <span id="restart-button" class="btn btn-primary">Restart</button>
+        </div>
 
-	</div>
-	
-	<!-- Modal dialogs -->
-	<div id="about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="about-modal-title">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-			
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 id="about-modal-title" class="modal-title">About</h4>
-				</div>
-				
-				<div class="modal-body">
-					Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
-					<br><br>
-					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015 using Bootstrap, Backbone.js and Animate.css. 
-					<br>
-					View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
-				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div id="rules" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="rules-modal-title">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-			
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 id="rules-modal-title" class="modal-title">Rules</h4>
-				</div>
-				
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row rules-row">
-							<div class="col-lg-6">
-								<div id="gift-rules-text" class="rules-text">Find the gift tile!</div>
-							</div>
-							<div class="col-lg-6">
-								<img src="images/gift-tile.png">
-							</div>
-						</div>
-						<div class="row rules-row">
-							<div class="col-lg-6">
-								<div id="arrow-rules-text" class="rules-text">Arrows indicate the general direction the gift tile is in</div>
-							</div>
-							<div class="col-lg-6">
-								<img src="images/arrow-tile.png">
-							</div>
-						</div>
-						<div class="row rules-row">
-							<div class="col-lg-6">
-								<div id="number-rules-text" class="rules-text">Numbers represent how far away the gift tile is (Doesn't include diagonal movement!)</div>
-							</div>
-							<div class="col-lg-6">
-								<img src="images/number-tile.png">
-							</div>
-						</div>
-						<div class="row rules-row">
-							<div class="col-lg-6">
-								<div id="fire-rules-text" class="rules-text">Watch out for fires, they will hide all other revealed tiles on the board!</div>
-							</div>
-							<div class="col-lg-6">
-								<img src="images/fire-tile.png">
-							</div>
-						</div>
-						<div class="row rules-row">
-							<div class="col-lg-12">
-								<div class="rules-text">The number and location of tiles varies from game to game, so some games will be harder than others!</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div id="game" class="col-xs-12"></div>
 
-	<!-- Backbone templates -->
-	<script type="text/template" id="template-stats">
-		<div class="col-sm-5 col-sm-offset-1 stats-row"></span> Moves: <%- movesRemaining %>/<%- moves %></div>
-		<div class="col-sm-5 stats-row">
-			<span class="tile-stats"><span class="stats-tile revealed good glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <%- arrows %></span>
-			<span class="tile-stats"><span class="stats-tile revealed good" aria-hidden="true">3</span> <%- numbers %></span>
-			<span class="tile-stats"><span class="stats-tile revealed bad glyphicon glyphicon-fire" aria-hidden="true"></span> <%- fires %></span>
-		</div>
-	</script>
+    </div>
 
-	<script type="text/template" id="template-end-dialog">
-		<% if (won) { %>
-			<div class="text-success">You Win!</div>
-		<% } else { %>
-			<div class="text-danger">You Lose!</div>
-		<% } %>
-	</script>
+    <!-- Modal dialogs -->
+    <div id="about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="about-modal-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.2/backbone.marionette.js"></script>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 id="about-modal-title" class="modal-title">About</h4>
+                </div>
 
-	<script type="text/javascript" src="js/gift-grabber.js"></script>
+                <div class="modal-body">
+                    Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
+                    <br><br>
+                    Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015 using Bootstrap, Backbone.js and Animate.css. 
+                    <br>
+                    View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rules" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="rules-modal-title">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 id="rules-modal-title" class="modal-title">Rules</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row rules-row">
+                            <div class="col-lg-6">
+                                <div id="gift-rules-text" class="rules-text">Find the gift tile!</div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="images/gift-tile.png">
+                            </div>
+                        </div>
+                        <div class="row rules-row">
+                            <div class="col-lg-6">
+                                <div id="arrow-rules-text" class="rules-text">Arrows indicate the general direction the gift tile is in</div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="images/arrow-tile.png">
+                            </div>
+                        </div>
+                        <div class="row rules-row">
+                            <div class="col-lg-6">
+                                <div id="number-rules-text" class="rules-text">Numbers represent how far away the gift tile is (Doesn't include diagonal movement!)</div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="images/number-tile.png">
+                            </div>
+                        </div>
+                        <div class="row rules-row">
+                            <div class="col-lg-6">
+                                <div id="fire-rules-text" class="rules-text">Watch out for fires, they will hide all other revealed tiles on the board!</div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="images/fire-tile.png">
+                            </div>
+                        </div>
+                        <div class="row rules-row">
+                            <div class="col-lg-12">
+                                <div class="rules-text">The number of tiles and moves varies from game to game, so some games will be harder than others!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backbone templates -->
+    <script type="text/template" id="template-stats">
+        <div class="col-sm-5 col-sm-offset-1 stats-row"></span> Moves: <%- movesRemaining %>/<%- moves %></div>
+        <div class="col-sm-5 stats-row">
+            <span class="tile-stats"><span class="stats-tile revealed good glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <%- arrows %></span>
+            <span class="tile-stats"><span class="stats-tile revealed good" aria-hidden="true">3</span> <%- numbers %></span>
+            <span class="tile-stats"><span class="stats-tile revealed bad glyphicon glyphicon-fire" aria-hidden="true"></span> <%- fires %></span>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-end-dialog">
+        <% if (won) { %>
+            <div class="text-success">You Win!</div>
+        <% } else { %>
+            <div class="text-danger">You Lose!</div>
+        <% } %>
+    </script>
+
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.5.min.js"></script>
+    <script type="text/javascript" src="js/underscore-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/backbone-1.2.2.min.js"></script>
+    <script type="text/javascript" src="js/backbone.marionette-2.4.2.min.js"></script>
+
+    <script type="text/javascript" src="js/gift-grabber.js"></script>
   </body>
 </html>

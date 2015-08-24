@@ -1,3 +1,8 @@
+function getRandomInt(min, max) {
+
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 IconEnum = {
 	ARROW: 0,
 	NUMBER: 1,
@@ -375,16 +380,26 @@ var App = Backbone.Model.extend({
 	
 		var self = this;
 	
-		this.set({
-			won: false,
-			restarting: false,
-			moves: 25,
-			fires: 4,
-			arrows: 5,
-			numbers: 5
-		});
+		this.set({ won: false, restarting: false });
+
+		this.setTileCounts();
 		
 		this.set({ movesRemaining: self.get("moves") });
+	},
+	
+	setTileCounts: function() {
+	
+		this.set({
+			moves: getRandomInt(20, 25),
+			fires: getRandomInt(6, 18),
+			arrows: getRandomInt(2, 8),
+			numbers: getRandomInt(2, 8)
+		});
+	},
+	
+	decrementMoves: function() {
+		
+		this.set("movesRemaining", this.get("movesRemaining") - 1);
 	}
 });
 
@@ -459,7 +474,7 @@ var AppView = Backbone.View.extend({
 	
 		// Just in case, prevent moves remaining from ever displaying below 0
 		if (this.model.get("movesRemaining") > 0)
-			this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
+			this.model.decrementMoves();
 		
 		this.stats.render();
 	},

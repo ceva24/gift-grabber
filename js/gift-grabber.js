@@ -155,7 +155,6 @@ var TileView = Backbone.Marionette.ItemView.extend({
 			this.reveal();
 			this.performAction();
 			this.trigger("tile:revealed");
-
 		}
 	},
 	
@@ -193,6 +192,15 @@ var GiftTileView = TileView.extend({
 	
 		this.$el.addClass("gift");
 		this.$el.html('<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>');
+	},
+	
+	tileClicked: function() {
+	
+		if (!this.model.get("revealed")) {
+		
+			this.reveal();
+			this.performAction();
+		}
 	},
 	
 	reveal: function() {
@@ -439,15 +447,20 @@ var AppView = Backbone.View.extend({
 	},
 	
 	tileRevealed: function() {
+	
+		this.decrementMoves();
 
+		if (this.model.get("movesRemaining") == 0)
+			this.lose();
+	},
+	
+	decrementMoves: function() {
+	
 		// Just in case, prevent moves remaining from ever displaying below 0
 		if (this.model.get("movesRemaining") > 0)
 			this.model.set("movesRemaining", this.model.get("movesRemaining") - 1);
 		
 		this.stats.render();
-		
-		if (this.model.get("movesRemaining") == 0)
-			this.lose();
 	},
 	
 	restart: function() { // TODO track down and remove all old left-over objects
@@ -487,6 +500,8 @@ var AppView = Backbone.View.extend({
 	},
 	
 	win: function() {
+	
+		this.decrementMoves();
 	
 		this.model.set("won", true);
 	

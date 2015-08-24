@@ -28,7 +28,7 @@
   
 	<div id="about-button" data-toggle="modal" data-target="#about">About</div>
 
-	<div class="container">
+	<div id="game-container" class="container">
 
 		<div class="header">
 			<h1>Gift Grabber</h1>
@@ -36,14 +36,10 @@
 
 		<div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
 			<span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
-			<span class="btn btn-primary" disabled="disabled">Restart</button>
+			<span id="restart-button" class="btn btn-primary">Restart</button>
 		</div>
-		
-		<div id="stats" class="stats-panel"></div>
 
-		<div id="game" class="col-xs-12">
-			<div id="game-grid" class="grid"></div>
-		</div>
+		<div id="game" class="col-xs-12"></div>
 
 	</div>
 	
@@ -60,7 +56,7 @@
 				<div class="modal-body">
 					Gift Grabber is based on the classic Commodore Amiga game Flag Catcher.
 					<br><br>
-					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015 using Bootstrap and Backbone.js. 
+					Created by <a href="https://twitter.com/Ceva24">Chris Evans</a>, 2015 using Bootstrap, Backbone.js and Animate.css. 
 					<br>
 					View the <a href="https://github.com/Ceva24/gift-grabber">source code</a> on Github!
 				</div>

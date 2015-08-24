@@ -257,7 +257,9 @@ var NumberTileView = TileView.extend({
 
 var GridView = Backbone.Marionette.CollectionView.extend({
 
-	el: "#game-grid",
+	id: "#game-grid",
+	
+	className: "grid animated",
 
 	childView: TileView,
 	
@@ -268,7 +270,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	onRender: function() {
 
 		// Wrap cells in a .grid-row every 9 cells
-		var cells = $("#game-grid > .grid-cell");
+		var cells = this.$el.children();
 
 		for(var i = 0; i < cells.length; i += 9)
 			cells.slice(i, i + 9).wrapAll('<div class="grid-row" />');
@@ -292,8 +294,13 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 	
 	show: function() {
 		
-		this.$el.addClass("animated fadeIn");
+		this.$el.removeClass("fadeOut").addClass("fadeIn");
 		this.render();
+	},
+	
+	hide: function() {
+	
+		this.$el.removeClass("fadeIn").addClass("fadeOut");
 	},
 	
 	revealAll: function() {
@@ -303,20 +310,18 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 		var delay = 0;
 
 		this.children.each(function(tile) {
-		
-			if(!tile.model.get("revealed")) {
-			
-				setTimeout(function() { 
-				
-					tile.reveal();
-					
-					if ((tile.model.get("x") === 9) && (tile.model.get("y") === 1))
-						self.trigger("end");
 
-				}, delay);
+			setTimeout(function() { 
 				
-				delay += 75;
-			}
+				if(!tile.model.get("revealed")) 
+					tile.reveal();
+				
+				if (tile === self.children.last())
+					self.trigger("end");
+
+			}, delay);
+			
+			delay += 75;
 		});
 	},
 	
@@ -333,7 +338,9 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
 var StatsView = Backbone.View.extend({
 
-	el: "#stats",
+	id: "stats",
+	
+	className: "stats-panel animated",
 	
 	template: _.template($("#template-stats").html()),
 	
@@ -345,9 +352,14 @@ var StatsView = Backbone.View.extend({
 	
 	show: function() {
 		
-		this.$el.addClass("animated fadeIn");
+		this.$el.removeClass("fadeOut").addClass("fadeIn");
 		this.render();
-	}
+	},
+	
+	hide: function() {
+	
+		this.$el.removeClass("fadeIn").addClass("fadeOut");
+	},
 });
 var App = Backbone.Model.extend({
 
@@ -384,29 +396,46 @@ var EndDialogView = Backbone.View.extend({
 
 var AppView = Backbone.View.extend({
 
-	el: "#game",
+	el: "#game-container",
 
 	model: new App(),
+	
+	events: {
+		"click #restart-button": "restart"
+	},
 
 	initialize: function() {
+	
+		this.on('restart', this.restart);
 
 		this.start();
 	},
 	
 	start: function() {
-	
-		var self = this;
-		
-		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
-		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
-		this.listenTo(this.grid, "win", this.win);
-		
-		this.stats = new StatsView({ model: this.model });
-		
+
+		this.createGrid();
+		this.createStats();
+
 		this.stats.render();
 		this.grid.show();
+		this.stats.show();
+	},
+	
+	createGrid: function() {
+
+		this.grid = new GridView({ collection: new Grid({ fires: this.model.get("fires"), arrows: this.model.get("arrows"), numbers: this.model.get("numbers") }).grid })
+
+		this.$el.children("#game").append(this.grid.$el);
 		
-		$(setTimeout(function() { self.stats.show() }, 1000));
+		this.listenTo(this.grid, "tile:revealed", this.tileRevealed);
+		this.listenTo(this.grid, "win", this.win);
+	},
+	
+	createStats: function() {
+			
+		this.stats = new StatsView({ model: this.model });
+
+		this.stats.$el.insertBefore(this.grid.$el);
 	},
 	
 	tileRevealed: function() {
@@ -419,6 +448,31 @@ var AppView = Backbone.View.extend({
 		
 		if (this.model.get("movesRemaining") == 0)
 			this.lose();
+	},
+	
+	restart: function() { // TODO track down and remove all old left-over objects
+	
+		var self = this;
+	
+		this.disableBoard();
+	
+		this.grid.hide();
+		this.stats.hide();
+		
+		setTimeout(function() {
+		
+			self.grid.remove();
+			self.stats.remove();
+		
+			self.grid.collection.reset();
+
+			self.model.destroy();
+			self.model = new App();
+		
+			self.start();
+			
+		}, 1000);
+	
 	},
 	
 	lose: function() {

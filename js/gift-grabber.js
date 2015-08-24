@@ -377,6 +377,7 @@ var App = Backbone.Model.extend({
 	
 		this.set({
 			won: false,
+			restarting: false,
 			moves: 25,
 			fires: 4,
 			arrows: 5,
@@ -467,25 +468,29 @@ var AppView = Backbone.View.extend({
 	
 		var self = this;
 	
-		this.disableBoard();
-	
-		this.grid.hide();
-		this.stats.hide();
-		
-		setTimeout(function() {
-		
-			self.grid.remove();
-			self.stats.remove();
-		
-			self.grid.collection.reset();
-
-			self.model.destroy();
-			self.model = new App();
-		
-			self.start();
+		if (!this.model.get("restarting")) {
 			
-		}, 1000);
+			this.model.set("restarting", true);
 	
+			this.disableBoard();
+		
+			this.grid.hide();
+			this.stats.hide();
+			
+			setTimeout(function() {
+			
+				self.grid.remove();
+				self.stats.remove();
+			
+				self.grid.collection.reset();
+
+				self.model.destroy();
+				self.model = new App();
+			
+				self.start();
+				
+			}, 1000);
+		}
 	},
 	
 	lose: function() {

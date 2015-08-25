@@ -60,13 +60,13 @@ body {
 
 @media(min-width: 480px) {
     #button-box {
-        width: 438px;
+        width: 384px;
     }
 }
 
 @media(min-width: 768px) {
     #button-box {
-        width: 680px;
+        width: 628px;
     }
 }
 
@@ -186,21 +186,22 @@ body {
 
 @media(min-width: 480px) {
     .grid-cell {
-        border-right: 2px solid #98a6ad;
-        border-bottom: 2px solid #98a6ad;
-        border-radius: 4px;
-    }
-}
-
-@media(min-width: 480px) {
-    .grid-cell {
-        height: 46px;
-        width: 46px;
-        font-size: large;
+        height: 40px;
+        width: 40px;
+        font-size: medium;
     }
 }
 
 @media(min-width: 768px) {
+    .grid-cell {
+        height: 65px;
+        width: 65px;
+        font-size: x-large;
+        border-radius: 4px;
+    }
+}
+
+@media(min-width: 992px) {
     .grid-cell {
         height: 75px;
         width: 75px;
@@ -213,13 +214,6 @@ body {
     border-left: 1px solid #98a6ad;
     border-bottom: none;
     border-right: none;
-}
-
-@media(min-width: 480px) {
-    .grid-cell.revealed {
-        border-top: 2px solid #98a6ad;
-        border-left: 2px solid #98a6ad;
-    }
 }
 
 .grid-cell.dead {

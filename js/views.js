@@ -274,7 +274,7 @@ var AppView = Backbone.View.extend({
     model: new App(),
 
     events: {
-        "click #restart-button": "restart"
+        "click #restart-button, #end-dialog": "restart"
     },
 
     initialize: function() {

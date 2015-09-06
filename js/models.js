@@ -124,7 +124,7 @@ var App = Backbone.Model.extend({
     setTileCounts: function() {
 
         this.set({
-            moves: getRandomInt(20, 25),
+            moves: getRandomInt(10, 25),
             fires: getRandomInt(6, 18),
             arrows: getRandomInt(2, 8),
             numbers: getRandomInt(2, 8)

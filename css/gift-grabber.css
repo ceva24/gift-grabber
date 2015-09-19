@@ -244,6 +244,7 @@ body {
     margin: auto;
     bottom: 40%;
     z-index: 1000;
+    cursor: pointer;
 }
 
 @media(min-width: 480px) {

@@ -211,7 +211,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
             }, delay);
 
-            delay += 60;
+            delay += 50;
         });
     },
 

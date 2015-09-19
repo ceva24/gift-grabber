@@ -211,7 +211,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
             }, delay);
 
-            delay += 75;
+            delay += 60;
         });
     },
 
@@ -279,7 +279,7 @@ var AppView = Backbone.View.extend({
 
     initialize: function() {
 
-        this.on('restart', this.restart);
+        this.on("restart", this.restart);
 
         this.start();
     },

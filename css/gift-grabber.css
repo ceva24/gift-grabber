@@ -242,7 +242,7 @@ body {
     left: 0;
     right: 0;
     margin: auto;
-    bottom: 40%;
+    bottom: 31%;
     z-index: 1000;
     cursor: pointer;
 }
@@ -251,6 +251,7 @@ body {
     #end-dialog {
         font-size: 400%;
         width: 55%;
+        bottom: 32%;
     }
 }
 
@@ -258,5 +259,6 @@ body {
     #end-dialog {
         font-size: 600%;
         width: 60%;
+        bottom: 37%;
     }
 }

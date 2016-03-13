@@ -27,8 +27,6 @@
   </head>
   <body>
 
-    <div id="about-button" data-toggle="modal" data-target="#about">About</div>
-
     <div id="game-container" class="container">
 
         <div class="header">
@@ -36,8 +34,13 @@
         </div>
 
         <div id="button-box" class="alert alert-info fade in animated fadeIn" role="alert">
-            <span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
-            <span id="restart-button" class="btn btn-primary">Restart</button>
+            <span id="game-buttons">
+                <span id="restart-button" class="btn btn-primary">Restart</span>
+            </span>
+            <span id="info-buttons">
+                <span class="btn btn-default" data-toggle="modal" data-target="#rules">Rules</span>
+                <span class="btn btn-default" data-toggle="modal" data-target="#about">About</span>
+            </span>
         </div>
 
         <div id="game" class="col-xs-12"></div>

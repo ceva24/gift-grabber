@@ -58,12 +58,12 @@ body {
     }
 }
 
-#game-buttons {
+#info-buttons {
     display: table-cell;
     width: 50%;
 }
 
-#info-buttons {
+#game-buttons {
     display: table-cell;
     width: 50%;
     text-align: right;

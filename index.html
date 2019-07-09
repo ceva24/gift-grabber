@@ -143,9 +143,9 @@
 
     <script type="text/template" id="template-end-dialog">
         <% if (won) { %>
-            <div class="text-success">Next level <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>
+            <div id="win-dialog" class="text-success">Next level <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></div>
         <% } else { %>
-            <div class="text-danger">Game Over!</div>
+            <div id="lose-dialog" class="text-danger">Game Over!</div>
         <% } %>
     </script>
 

@@ -143,6 +143,10 @@ body {
     }
 }
 
+.game-variable {
+    color: #337ab7;
+}
+
 .stats-tile-container {
     margin-right: 2%;
 }

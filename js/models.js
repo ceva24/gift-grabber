@@ -110,11 +110,11 @@ var Grid = Backbone.Model.extend({
 
 var App = Backbone.Model.extend({
 
-    initialize: function() {
+    initialize: function(level) {
 
         var self = this;
 
-        this.set({ won: false, restarting: false });
+        this.set({ won: false, transitioning: false, level: level });
 
         this.setTileCounts();
 

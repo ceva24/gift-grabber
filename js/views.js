@@ -271,10 +271,11 @@ var AppView = Backbone.View.extend({
 
     el: "#game-container",
 
-    model: new App(),
+    model: new App(1),
 
     events: {
-        "click #restart-button, #end-dialog": "restart"
+        "click #restart-button": "restart",
+        "click #end-dialog": "nextLevel"
     },
 
     initialize: function() {
@@ -328,13 +329,24 @@ var AppView = Backbone.View.extend({
         this.stats.render();
     },
 
-    restart: function() { // FIXME track down and remove all old left-over objects
+    restart: function() {
+
+        this.resetGrid(1);
+    },
+
+    nextLevel: function() {
+        
+        var nextLevel = this.model.get("level") + 1;
+        this.resetGrid(nextLevel);
+    },
+
+    resetGrid: function(level) { // FIXME track down and remove all old left-over objects
 
         var self = this;
 
-        if (!this.model.get("restarting")) {
+        if (!this.model.get("transitioning")) {
 
-            this.model.set("restarting", true);
+            this.model.set("transitioning", true);
 
             this.disableBoard();
 
@@ -349,7 +361,8 @@ var AppView = Backbone.View.extend({
                 self.grid.collection.reset();
 
                 self.model.destroy();
-                self.model = new App();
+
+                self.model = new App(level);
 
                 self.start();
 

@@ -8,7 +8,7 @@ IconEnum = {
     NUMBER: 1,
     FIRE: 2,
     GIFT: 3
-    // Future enhancement - new icons: reveal area, moves, shuffle
+    // Future enhancement - new icons: reveal area, moves, shuffle, points
 };
 
 $(function() { new AppView(); });

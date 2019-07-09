@@ -123,11 +123,13 @@ var App = Backbone.Model.extend({
 
     setTileCounts: function() {
 
+        var level = this.get("level");
+
         this.set({
-            moves: getRandomInt(10, 25),
-            fires: getRandomInt(6, 18),
-            arrows: getRandomInt(2, 8),
-            numbers: getRandomInt(2, 8)
+            moves: getNumberOfMoves(level),
+            fires: getNumberOfFireTiles(level),
+            arrows: getNumberOfArrowOrNumberTiles(level),
+            numbers: getNumberOfArrowOrNumberTiles(level)
         });
     },
 

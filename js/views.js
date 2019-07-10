@@ -211,7 +211,7 @@ var GridView = Backbone.Marionette.CollectionView.extend({
 
             }, delay);
 
-            delay += 50;
+            delay += 40;
         });
     },
 
@@ -366,7 +366,7 @@ var AppView = Backbone.View.extend({
 
                 self.start();
 
-            }, 1000);
+            }, 750);
         }
     },
 
@@ -398,7 +398,7 @@ var AppView = Backbone.View.extend({
 
         this.listenTo(this.grid, "end", this.showEndDialog);
 
-        setTimeout(function() { self.grid.revealAll(); }, 1000);
+        setTimeout(function() { self.grid.revealAll(); }, 750);
     },
 
     disableBoard: function() {
@@ -419,6 +419,6 @@ var AppView = Backbone.View.extend({
             self.grid.$el.append(end.$el);
             end.render();
 
-        }, 1000);
+        }, 250);
     }
 });

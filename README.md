@@ -6,8 +6,4 @@ A desktop and mobile browser game based on <a href="http://hol.abime.net/5578">F
 
 ## Play
 
-<a href="https://ceva24.github.io/gift-grabber/">Play it here</a>.
-
-## Contribution
-
-Feel free to fork this repo and further develop it.
+<a href="https://ceva24.github.io/gift-grabber/">Play it here</a> 🕹️
